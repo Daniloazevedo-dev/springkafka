@@ -1,0 +1,41 @@
+topic:
+  name: people
+
+spring:
+  kafka:
+    bootstrap-servers: "localhost:9092"
+    producer:
+      keySerializer: "org.apache.kafka.common.serialization.StringSerializer"
+      valueSerializer: "io.confluent.kafka.serializers.KafkaAvroSerializer"
+      properties:
+        schema:
+          registry:
+            url: "http://localhost:8081"
+
+    consumer:
+      enable-auto-commit: false
+      group-id: "javatechie-new"
+      keyDeserializer: "org.apache.kafka.common.serialization.StringDeserializer"
+      valueDeserializer: "io.confluent.kafka.serializers.KafkaAvroDeserializer"
+      autoOffsetReset: "earliest"
+      properties:
+        schema:
+          registry:
+            url: "http://localhost:8081"
+        specific:
+          avro:
+            reader: "true"
+    listener:
+      ack-mode: manual_immediate
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  datasource:
+    password: password
+    driver-class-name: org.h2.Driver
+    username: sa
+    url: jdbc:h2:mem:testdb
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
